@@ -1,13 +1,12 @@
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class TennisTest {
@@ -30,7 +29,7 @@ public class TennisTest {
                 { 2, 2, "Thirty-All"},
                 { 3, 3, "Deuce"},
                 { 4, 4, "Deuce"},
-                
+
                 { 1, 0, "Fifteen-Love"},
                 { 0, 1, "Love-Fifteen"},
                 { 2, 0, "Thirty-Love"},
@@ -66,33 +65,40 @@ public class TennisTest {
         });
     }
 
-    public void checkAllScores(TennisGame game) {
+    public void checkAllScores(TennisGame game, String player1Name, String player2Name) {
         int highestScore = Math.max(this.player1Score, this.player2Score);
         for (int i = 0; i < highestScore; i++) {
             if (i < this.player1Score)
-                game.wonPoint("player1");
+                game.wonPoint(player1Name);
             if (i < this.player2Score)
-                game.wonPoint("player2");
+                game.wonPoint(player2Name);
         }
         assertEquals(this.expectedScore, game.getScore());
     }
 
+
     @Test
     public void checkAllScoresTennisGame1() {
         TennisGame1 game = new TennisGame1("player1", "player2");
-        checkAllScores(game);
+        checkAllScores(game, "player1", "player2");
+    }
+
+    @Test
+    public void otherPlayerNames() {
+        TennisGame2 game = new TennisGame2("XYZ", "ABC");
+        checkAllScores(game, "XYZ","ABC");
     }
 
     @Test
     public void checkAllScoresTennisGame2() {
         TennisGame2 game = new TennisGame2("player1", "player2");
-        checkAllScores(game);
+        checkAllScores(game, "player1", "player2");
     }
 
     @Test
     public void checkAllScoresTennisGame3() {
         TennisGame3 game = new TennisGame3("player1", "player2");
-        checkAllScores(game);
+        checkAllScores(game, "player1", "player2");
     }
 
 }
